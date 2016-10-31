@@ -17,10 +17,40 @@ const after = (options, server, next) => {
     isCached: process.env.TEMPLATE_CACHE.toLowerCase() === 'true'
   })
 
+  const pages = [
+    'abonnez-vous',
+    'accueil',
+    'accueil-tous',
+    'agenda',
+    'allo',
+    'apropos',
+    'bottin',
+    'bye',
+    'faq',
+    'moi',
+    'page-ext-1',
+    'page-int-1',
+    'resultats',
+    'section-acteurs',
+    'section-actionnaires',
+    'section-entreprise',
+    'sujet-acericulture',
+    'sujet-agriculture',
+    'tests'
+  ]
+
   server.route({
     method: 'GET',
     path: '/',
-    handler: { view: 'accueil-tous' } // accueil-tous
+    handler: function (request, reply) { reply.redirect('/accueil') }
+  })
+
+  pages.forEach((page) => {
+    server.route({
+      method: 'GET',
+      path: '/' + page,
+      handler: { view: page }
+    })
   })
 
   next()
